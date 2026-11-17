@@ -2,278 +2,376 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>¡Nos casamos! Nico & Sol</title>
-<meta name="description" content="Invitación de boda de Nico y Sol · 27 de marzo de 2027 · Río de Janeiro">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sol &amp; Nico · ¡Nos casamos!</title>
+<meta name="description" content="Sábado 27 de marzo de 2027 · Som do Mar, Praia da Reserva · Rio de Janeiro">
+<meta name="theme-color" content="#e0afbd">
+<!-- Vista previa al compartir por WhatsApp. Cuando la página esté publicada,
+     cambia "fondo.jpg" por la dirección completa (https://.../fondo.jpg). -->
+<meta property="og:title" content="Sol &amp; Nico · ¡Nos casamos!">
+<meta property="og:description" content="Sábado 27 de marzo de 2027 · Rio de Janeiro">
+<meta property="og:image" content="fondo.jpg">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="poster.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Outfit:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
+  /* Columna de celular 9:16; arriba la última imagen del video (cielo y mar), abajo la arena con el contenido. */
   :root{
-    --ink:#6d5f7f; --muted:#8d7fa0; --gold:#e7cd98; --blush:#f8dbe1; --mint:#dcefe6;
+    --plum:#6e2a4a;        /* texto principal, igual al del video */
+    --plum-soft:#8a5470;
+    --rose:#e0afbd;        /* cielo */
+    --peach:#f4c9a6;
+    --gold:#b98a3e;
+    --lilac:#b7a0cf;
+    --sea:#8fc3c4;
+    --sand:#dca485;        /* arena al pie de la imagen */
+    --sand-light:#f3dcc4;
+    --paper:rgba(255,248,241,.78);
+    --script:"Pinyon Script","Great Vibes",cursive;
+    --serif:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+    --sans:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --colw:min(100vw, calc(100svh * 9 / 16));
+    --u:calc(100svh / 1280);   /* 1 px de la imagen original (720×1280) */
+    color-scheme:light;
   }
+  @supports not (height:100svh){ :root{ --colw:min(100vw, calc(100vh * 9 / 16)); --u:calc(100vh / 1280); } }
+
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:#fdf4f0;color:var(--ink);font-family:"Montserrat",system-ui,sans-serif;font-weight:300;overflow-x:hidden}
+  html{-webkit-text-size-adjust:100%}
+  body{background:#c98f74;color:var(--plum);font-family:var(--sans);font-weight:300;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+  body.locked{overflow:hidden;height:100svh}
+  button,a{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
-  /* ---------- Escenario ---------- */
-  .stage{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#fbe3e8}
-  .scene{position:absolute;inset:0;overflow:hidden;background-repeat:no-repeat;opacity:0}
-  /* Todo queda pausado hasta que se toca "Toca para abrir" */
-  .stage:not(.go) *,.stage:not(.go) .scene{animation-play-state:paused !important}
+  .page{position:relative;width:var(--colw);margin:0 auto;background:var(--sand);overflow:hidden;box-shadow:0 0 60px rgba(90,40,60,.25)}
 
-  .intro{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
-    background:url(img/cielo.jpg) center/cover;transition:opacity .8s ease}
-  .intro::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.35)}
-  .intro > *{position:relative}
-  .intro.hide{opacity:0;pointer-events:none}
-  .intro-small{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:24px;color:var(--ink)}
-  .open-btn{border:1px solid #d9c7a4;background:rgba(255,255,255,.8);color:var(--ink);padding:14px 30px;border-radius:999px;
-    font:inherit;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 20px rgba(120,100,140,.15)}
+  /* ---------- PARTE 1: video de apertura ---------- */
+  .opening{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;background:#c98f74;transition:opacity 1.6s ease}
+  .opening.fade{opacity:0;pointer-events:none}
+  .opening[hidden]{display:none}
+  .opening .screen{position:relative;width:var(--colw);height:100%;overflow:hidden;background:url(poster.jpg) center/cover var(--rose)}
+  .opening video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .ctrl{position:absolute;z-index:2;border:0;border-radius:999px;background:rgba(255,248,241,.72);color:var(--plum);
+    font-family:var(--sans);font-size:12px;letter-spacing:.08em;padding:9px 14px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .skip{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+  .sound{bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%)}
+  .tap[hidden]{display:none}
+  .tap{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;border:0;background:rgba(224,175,189,.25);cursor:pointer}
+  .tap span{background:rgba(255,248,241,.85);color:var(--plum);border-radius:999px;padding:15px 26px;font-family:var(--sans);font-size:14px;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 10px 30px rgba(110,42,74,.2)}
 
-  .skip{position:absolute;top:16px;right:16px;z-index:30;border:0;background:rgba(255,255,255,.7);color:var(--ink);
-    padding:8px 14px;border-radius:999px;font:inherit;font-size:12px;cursor:pointer}
+  /* ---------- PARTE 2: portada (última imagen del video sin texto) ---------- */
+  .hero{position:relative;height:100svh;min-height:520px;background:url(fondo.jpg) center top/cover var(--rose);text-align:center}
+  @supports not (height:100svh){ .hero{height:100vh} }
+  .hero-text{position:absolute;left:0;right:0;top:calc(236 * var(--u))}
+  .names{font-family:var(--script);font-weight:400;font-size:calc(92 * var(--u));line-height:1.05;color:var(--plum);letter-spacing:.01em}
+  .hero-date{font-family:var(--serif);font-size:calc(33 * var(--u));line-height:1.25;color:var(--plum-soft);margin-top:calc(4 * var(--u))}
+  .hero-city{font-family:var(--serif);font-size:calc(33 * var(--u));line-height:1.2;color:var(--plum)}
+  .hero-wed{font-family:var(--script);font-size:calc(66 * var(--u));color:var(--plum);margin-top:calc(26 * var(--u));
+    opacity:0;transform:translateY(10px);transition:opacity 1.6s ease .3s,transform 1.6s ease .3s;text-shadow:0 1px 14px rgba(255,240,235,.6)}
+  .ready .hero-wed{opacity:1;transform:none}
+  .scroll-cue{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom,0px));font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:#fff;text-shadow:0 1px 8px rgba(110,42,74,.45);opacity:0;transition:opacity 1.2s ease 1.2s}
+  .ready .scroll-cue{opacity:1;animation:bob 2.4s ease-in-out 2.4s infinite}
+  @keyframes bob{50%{transform:translateY(6px)}}
 
-  /* Escena 1: sobre con la carta */
-  .s1{background-image:url(img/escena-sobre.jpg);background-size:cover;background-position:center;
-    animation:fadeIn 1s ease .2s forwards, zoom 9s ease-out .2s forwards, fadeOut .9s ease 8.4s forwards}
-  @keyframes fadeIn{to{opacity:1}}
-  @keyframes fadeOut{to{opacity:0}}
-  @keyframes zoom{from{transform:scale(1.12)}to{transform:scale(1)}}
-  .s1-text{position:absolute;left:0;right:0;top:14%;text-align:center;color:#fff;text-shadow:0 2px 18px rgba(109,95,127,.45)}
-  .t1,.t2{opacity:0;animation:fadeUp 1.1s ease forwards}
-  .t1{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(38px,9vw,64px);line-height:1.05;animation-delay:2.2s}
-  .t2{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(24px,5.5vw,34px);margin-top:10px;animation-delay:3.6s}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(transparent,var(--sand));pointer-events:none}
+  /* olas sobre el mar de la imagen */
+  .sea-fx{position:absolute;left:0;right:0;top:calc(866 * var(--u));height:calc(80 * var(--u));pointer-events:none;overflow:hidden;opacity:.55;filter:blur(1.2px);
+    -webkit-mask:linear-gradient(transparent,#000 20%,#000 80%,transparent);mask:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+  .sea-fx svg{position:absolute;left:-50%;width:200%;height:100%;animation:drift 14s linear infinite}
+  .sea-fx svg:nth-child(2){animation-duration:22s;animation-direction:reverse;opacity:.7}
+  @keyframes drift{to{transform:translateX(25%)}}
+  .sparkle{position:absolute;top:calc(860 * var(--u));left:50%;width:calc(70 * var(--u));height:calc(150 * var(--u));transform:translateX(-160%);
+    background:radial-gradient(closest-side,rgba(255,236,190,.55),transparent);filter:blur(2px);animation:glint 4s ease-in-out infinite}
+  @keyframes glint{50%{opacity:.35}}
 
-  /* Escena 2: Río, Copacabana */
-  .s2{background-image:url(img/escena-copacabana.jpg);background-size:auto 100%;background-position:0% 50%;
-    animation:fadeIn .9s ease 8.6s forwards, pan2 7s ease-in-out 8.6s forwards, fadeOut .9s ease 15.4s forwards}
-  @keyframes pan2{from{background-position:0% 50%}to{background-position:100% 50%}}
-  .place{position:absolute;left:0;right:0;bottom:12%;text-align:center;font-family:"Cormorant Garamond",serif;font-size:clamp(28px,7vw,44px);
-    color:#fff;text-shadow:0 2px 16px rgba(109,95,127,.5);opacity:0;animation:fadeUp 1s ease 10s forwards}
 
-  /* Escena 3: auto clásico por la costa */
-  .s3{background-image:url(img/escena-auto.jpg);background-size:auto 100%;background-position:30% 50%;
-    animation:fadeIn .9s ease 15.2s forwards, drive 7s ease-in-out 15.2s forwards, fadeOut .9s ease 22.2s forwards}
-  @keyframes drive{from{background-position:45% 50%}to{background-position:12% 50%}}
+  /* ---------- contenido sobre la arena ---------- */
+  .beach{position:relative;padding:20px max(18px, env(safe-area-inset-right,0px)) calc(56px + env(safe-area-inset-bottom,0px)) max(18px, env(safe-area-inset-left,0px));
+    background:linear-gradient(var(--sand) 0, #e6b796 260px, var(--sand-light) 900px, #f6e4d0 100%)}
+  .beach::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .beach > *{position:relative}
+  .stack{display:flex;flex-direction:column;gap:22px;max-width:440px;margin:0 auto}
 
-  /* Escena 4: pareja en la playa */
-  .s4{background-image:url(img/escena-pareja-playa.jpg);background-size:cover;background-position:center 80%;
-    animation:fadeIn .9s ease 22s forwards, closeIn 7s ease-in-out 22s forwards}
-  @keyframes closeIn{from{transform:scale(1);transform-origin:36% 82%}to{transform:scale(1.25);transform-origin:36% 82%}}
-  .hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#fff;
-    text-shadow:0 1px 8px rgba(0,0,0,.35);opacity:0;animation:fadeIn 1s ease 27s forwards}
+  .panel{background:var(--paper);border-radius:28px 30px 26px 32px;padding:30px 22px;text-align:center;
+    box-shadow:0 18px 40px -18px rgba(110,42,74,.35), inset 0 0 0 1px rgba(255,255,255,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--plum-soft);font-weight:400}
+  .script-title{font-family:var(--script);font-size:44px;line-height:1.1;color:var(--plum);margin-top:4px;text-wrap:balance}
+  .rule{width:64px;height:1px;margin:18px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 
-  /* ---------- Invitación ---------- */
-  .invite{position:relative;max-width:560px;margin:0 auto;padding:56px 20px 80px;text-align:center;
-    background:url(img/cielo.jpg) center top/cover fixed}
-  .invite::before{content:"";position:absolute;inset:0;background:rgba(255,250,248,.55);pointer-events:none}
-  .invite > *{position:relative}
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
-  .reveal.in{opacity:1;transform:none}
-  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-  .names{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(44px,11vw,72px);line-height:1;color:var(--ink)}
-  .names em{font-size:.6em;color:#c9a46a}
-  .card{background:rgba(255,255,255,.8);border:1px solid rgba(231,205,152,.6);border-radius:24px;padding:28px 22px;margin:26px auto;
-    box-shadow:0 14px 40px rgba(120,100,140,.12)}
-  .divider{width:70px;height:1px;background:var(--gold);margin:20px auto}
+  .weekday{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--plum-soft);margin-top:14px}
+  .bigdate{font-family:var(--serif);font-size:30px;font-weight:500;line-height:1.15;color:var(--plum);text-wrap:balance}
+  .time{margin-top:10px;font-size:15px;color:var(--plum-soft)}
+  .time b{font-weight:500;color:var(--plum)}
 
-  .count-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
-  .count{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-  .unit{background:linear-gradient(#fff,#fbf3f5);border-radius:16px;padding:14px 4px;border:1px solid #f1dfe4}
-  .unit b{display:block;font-family:"Cormorant Garamond",serif;font-size:clamp(26px,6vw,38px);font-weight:600;color:var(--ink);line-height:1}
-  .unit span{display:block;margin-top:6px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
-  .count-done{font-family:"Cormorant Garamond",serif;font-size:28px;color:var(--ink);padding:20px 0}
+  .count{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:6px}
+  .unit{padding:12px 2px 10px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(247,214,222,.55))}
+  .unit b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(22px,7vw,30px);line-height:1;font-variant-numeric:lining-nums tabular-nums;color:var(--plum)}
+  .unit span{display:block;margin-top:6px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--plum-soft)}
+  .count-done{grid-column:1/-1;font-family:var(--script);font-size:42px;color:var(--plum);padding:8px 0}
 
-  .poem{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(20px,4.6vw,26px);line-height:1.45;color:var(--ink)}
-  .poem-author{display:block;margin-top:14px;font-family:"Cormorant Garamond",serif;font-style:normal;font-size:clamp(16px,3.6vw,19px);color:var(--muted)}
+  /* frase */
+  .quote{padding:26px 6px 8px;text-align:center}
+  .quote p.l1{font-family:var(--serif);font-style:italic;font-size:23px;line-height:1.5;color:var(--plum);text-wrap:balance}
+  .quote p.l2{font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--plum-soft);margin-top:14px;text-wrap:balance}
+  .thanks{font-family:var(--sans);font-size:16px;font-weight:400;color:var(--plum);margin-top:30px;letter-spacing:.02em}
 
-  .label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-  .big{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,32px);color:var(--ink);font-weight:600}
-  .addr{font-size:14px;line-height:1.6;margin-top:8px}
-  .btn{display:inline-block;margin-top:16px;padding:13px 26px;border-radius:999px;background:var(--blush);color:var(--ink);text-decoration:none;
-    font-size:12px;letter-spacing:2px;text-transform:uppercase;border:1px solid #efc9d3}
+  .venue{font-family:var(--serif);font-size:28px;font-weight:500;color:var(--plum);margin-top:10px}
+  .addr{font-size:15px;line-height:1.6;color:var(--plum-soft);margin-top:6px}
 
-  .dress{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:14px}
-  .chip{padding:9px 14px;border-radius:999px;font-size:12px;letter-spacing:.5px;color:var(--ink)}
-  .c1{background:#e3dbf3}.c2{background:var(--mint)}.c3{background:#fde4d2}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;padding:12px 20px;border-radius:999px;
+    font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:0}
+  .btn-main{background:linear-gradient(135deg,#e7a9b9,#f2c39d);color:#5a2140;box-shadow:0 10px 24px -12px rgba(110,42,74,.6)}
+  .btn-soft{background:rgba(255,255,255,.65);color:var(--plum);box-shadow:inset 0 0 0 1px rgba(185,138,62,.45)}
+  .btn-row{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+  .link{display:inline-block;margin-top:16px;font-size:14px;color:var(--plum);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:4px;background:none;border:0;cursor:pointer}
+  .rsvp-note{font-size:14px;line-height:1.55;color:var(--plum-soft);margin-top:8px}
+  .replay{display:inline-flex;align-items:center;gap:6px;margin:4px auto 0;padding:8px 14px;border-radius:999px;border:0;cursor:pointer;
+    background:rgba(255,255,255,.5);color:var(--plum-soft);font-size:12px;letter-spacing:.1em}
 
-  .closing{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,28px);line-height:1.4;color:var(--ink)}
-  .sign{margin-top:18px;font-family:"Cormorant Garamond",serif;font-size:26px;color:#b8914f}
-  footer{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:24px}
+  .dress-title{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--plum);margin-top:10px}
+  .swatches{display:flex;justify-content:center;gap:10px;margin:16px 0 4px}
+  .swatches i{width:30px;height:30px;border-radius:50% 46% 52% 48%;box-shadow:inset 0 0 0 2px rgba(255,255,255,.7)}
+  .rules{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+  .rules li{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.6);font-size:13px;color:var(--plum)}
 
-  .music{position:fixed;right:14px;bottom:14px;z-index:40;border:0;border-radius:999px;padding:10px 16px;background:rgba(255,255,255,.9);
-    color:var(--ink);font:inherit;font-size:12px;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.1)}
-  .music[hidden]{display:none}
+  footer{text-align:center;margin-top:34px}
+  footer .names-s{font-family:var(--script);font-size:40px;color:var(--plum)}
+  footer p:not(.names-s){font-family:var(--serif);font-size:14px;letter-spacing:.2em;color:var(--plum-soft);margin-top:4px}
 
-  @media (prefers-reduced-motion: reduce){
-    *,*::before,*::after{animation-duration:.01s !important;animation-iteration-count:1 !important;transition-duration:.01s !important}
+  /* fundido al aparecer (solo si hay JS; sin JS todo queda visible) */
+  .js .reveal{opacity:0;transform:translateY(22px);transition:opacity 1.2s ease,transform 1.2s ease}
+  .js .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition-duration:.01s!important}
   }
-  @media (max-width:600px){ .invite{background-attachment:scroll} }
 </style>
 </head>
-<body>
+<body class="locked">
+<script>document.documentElement.classList.add('js')</script>
 
-<section class="stage" id="stage">
-
-  <div class="intro" id="intro">
-    <p class="intro-small">Nico &amp; Sol</p>
-    <button class="open-btn" id="openBtn">Toca para abrir</button>
+<!-- PARTE 1: video de apertura -->
+<div class="opening" id="opening" role="dialog" aria-label="Video de la invitación">
+  <div class="screen">
+    <video id="video" src="invitacion.mp4" poster="poster.jpg" autoplay muted playsinline webkit-playsinline preload="auto"></video>
+    <button class="ctrl skip" id="skip" type="button">Saltar ›</button>
+    <button class="ctrl sound" id="sound" type="button">🔈 Activar sonido</button>
+    <button class="tap" id="tap" type="button" hidden><span>Toca para abrir</span></button>
   </div>
-  <button class="skip" id="skipBtn">Saltar ↓</button>
+</div>
 
-  <!-- Escena 1: sobre y carta -->
-  <div class="scene s1">
-    <div class="s1-text">
-      <div class="t1">¡Nos casamos!</div>
-      <div class="t2">Nico &amp; Sol 🤍</div>
+<div class="page">
+
+  <!-- PARTE 2: portada + fecha + cuenta regresiva -->
+  <header class="hero" id="top">
+    <div class="sparkle" aria-hidden="true"></div>
+    <div class="sea-fx" aria-hidden="true">
+      <svg viewBox="0 0 800 100" preserveAspectRatio="none"><g fill="none" stroke="rgba(255,255,255,.55)" stroke-linecap="round">
+        <path stroke-width="1.6" d="M0 28 q50 -8 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/>
+        <path stroke-width="2.2" d="M0 62 q50 -10 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/></g></svg>
+      <svg viewBox="0 0 800 100" preserveAspectRatio="none"><g fill="none" stroke="rgba(255,250,240,.5)" stroke-linecap="round">
+        <path stroke-width="1.3" d="M0 45 q40 -6 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0"/>
+        <path stroke-width="2.6" d="M0 84 q60 -9 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/></g></svg>
     </div>
-  </div>
-
-  <!-- Escena 2: Río -->
-  <div class="scene s2">
-    <div class="place">Río de Janeiro</div>
-  </div>
-
-  <!-- Escena 3: auto clásico -->
-  <div class="scene s3"></div>
-
-  <!-- Escena 4: pareja en la playa -->
-  <div class="scene s4">
-    <div class="hint">Desliza para ver la invitación ↓</div>
-  </div>
-</section>
-
-<main class="invite" id="invite">
-
-  <header class="reveal">
-    <p class="eyebrow">Te invitamos a celebrar</p>
-    <h1 class="names">Nico <em>&amp;</em> Sol</h1>
+    <div class="hero-text">
+      <h1 class="names">Sol &amp; Nico</h1>
+      <p class="hero-date">27 · 03 · 2027</p>
+      <p class="hero-city">Rio de Janeiro</p>
+      <p class="hero-wed">¡Nos casamos!</p>
+    </div>
+    <p class="scroll-cue" aria-hidden="true">Desliza ↓</p>
   </header>
 
-  <section class="card reveal" aria-labelledby="cuenta">
-    <p class="count-label" id="cuenta">Faltan</p>
-    <div class="count" id="count">
-      <div class="unit"><b id="cMeses">--</b><span>meses</span></div>
-      <div class="unit"><b id="cDias">--</b><span>días</span></div>
-      <div class="unit"><b id="cHoras">--</b><span>horas</span></div>
-      <div class="unit"><b id="cMin">--</b><span>minutos</span></div>
-      <div class="unit"><b id="cSeg">--</b><span>segundos</span></div>
+
+  <main class="beach">
+    <div class="stack">
+
+      <section class="panel reveal" aria-labelledby="t-fecha">
+        <p class="eyebrow" id="t-fecha">Guarda la fecha</p>
+        <p class="weekday">Sábado</p>
+        <p class="bigdate">27 de marzo de 2027</p>
+        <p class="time"><b id="hora">Hora por confirmar</b> · hora de Rio</p>
+        <div class="rule"></div>
+        <p class="eyebrow">Faltan</p>
+        <div class="count" id="count" role="timer" aria-live="off">
+          <div class="unit"><b id="cMeses">–</b><span>meses</span></div>
+          <div class="unit"><b id="cDias">–</b><span>días</span></div>
+          <div class="unit"><b id="cHoras">–</b><span>horas</span></div>
+          <div class="unit"><b id="cMin">–</b><span>min</span></div>
+          <div class="unit"><b id="cSeg">–</b><span>seg</span></div>
+        </div>
+      </section>
+
+      <!-- PARTE 3: la frase (copiada tal cual) -->
+      <section class="quote reveal">
+        <p class="l1"><em>“De algún modo, mi alma conocía a tu alma antes de que tuviéramos la oportunidad de encontrarnos”</em></p>
+        <p class="l2">- fue como volver a casa después de un día muy, muy largo</p>
+        <p class="thanks">Gracias por ser parte de nuestra historia!</p>
+      </section>
+
+      <!-- PARTE 4: lugar, calendario, confirmación -->
+      <section class="panel reveal" aria-labelledby="t-lugar">
+        <p class="eyebrow" id="t-lugar">Dónde</p>
+        <p class="venue">Som do Mar</p>
+        <p class="addr">Praia da Reserva, Barra da Tijuca<br>Rio de Janeiro, Brasil</p>
+        <div class="btn-row">
+          <a class="btn btn-main" id="maps" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&amp;query=Som+do+Mar+Praia+da+Reserva+Barra+da+Tijuca+Rio+de+Janeiro">Cómo llegar</a>
+        </div>
+        <a class="link" id="cal" href="#" target="_blank" rel="noopener">Agregar a mi calendario</a>
+      </section>
+
+      <section class="panel reveal" aria-labelledby="t-rsvp">
+        <p class="eyebrow" id="t-rsvp">Confirmación</p>
+        <p class="script-title">¿Nos acompañas?</p>
+        <p class="rsvp-note">Avísanos por WhatsApp con un toque.</p>
+        <div class="btn-row">
+          <a class="btn btn-main" id="yes" target="_blank" rel="noopener" href="#">Confirmo asistencia</a>
+          <a class="btn btn-soft" id="no" target="_blank" rel="noopener" href="#">No podré asistir</a>
+        </div>
+      </section>
+
+      <div style="text-align:center" class="reveal">
+        <button class="replay" id="replay" type="button">↺ Volver a ver el video</button>
+      </div>
+
+      <!-- PARTE 5: dress code -->
+      <section class="panel reveal" aria-labelledby="t-dress">
+        <p class="eyebrow" id="t-dress">Dress code</p>
+        <p class="dress-title">Cocktail elegante</p>
+        <div class="swatches" aria-hidden="true">
+          <i style="background:#f3c6d0"></i><i style="background:#f6d2b3"></i><i style="background:#cdbfe6"></i><i style="background:#c7e3dc"></i><i style="background:#f4e3a8"></i>
+        </div>
+        <ul class="rules">
+          <li>En tonos pasteles</li>
+          <li>Sin blanco</li>
+          <li>Sin shorts</li>
+        </ul>
+      </section>
+
+      <footer class="reveal">
+        <p class="names-s">Sol &amp; Nico</p>
+        <p>27 · 03 · 2027</p>
+      </footer>
     </div>
-  </section>
-
-  <section class="card reveal">
-    <blockquote class="poem">
-      “De algún modo, mi alma conocía a tu alma antes de que tuviéramos la oportunidad de encontrarnos.”
-      <span class="poem-author">— fue como volver a casa después de un día muy, muy largo.</span>
-    </blockquote>
-  </section>
-
-  <section class="card reveal">
-    <p class="label">Cuándo y dónde</p>
-    <p class="big">Sábado 27 de marzo de 2027</p>
-    <p class="addr"><strong>15:30</strong> (hora de Brasil)</p>
-    <div class="divider"></div>
-    <p class="big">Río de Janeiro, Brasil</p>
-    <p class="addr">Av. Lúcio Costa, 10820 – Barra da Tijuca<br>Rio de Janeiro – RJ, 22795-006, Brasil</p>
-    <a class="btn" href="https://maps.app.goo.gl/tUhKyerrZkrztdTf9?g_st=ic" target="_blank" rel="noopener">Cómo llegar</a>
-  </section>
-
-  <section class="card reveal">
-    <p class="label">Dress code</p>
-    <p class="big">Cocktail elegante</p>
-    <div class="dress">
-      <span class="chip c1">Tonos pasteles</span>
-      <span class="chip c2">Sin blanco</span>
-      <span class="chip c3">Sin shorts</span>
-    </div>
-  </section>
-
-  <!-- Lista de regalos: pendiente -->
-
-  <section class="reveal">
-    <p class="closing">Gracias por ser parte de nuestra historia de amor. Ahora queremos que nos acompañen a celebrarla.</p>
-    <p class="sign">Nico &amp; Sol 🤍</p>
-    <footer>27 · 03 · 2027 · Río de Janeiro</footer>
-  </section>
-
-</main>
-
-<audio id="music" loop preload="none">
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
-<button class="music" id="musicBtn" hidden>♪ Música</button>
+  </main>
+</div>
 
 <script>
-  const stage = document.getElementById('stage');
-  const intro = document.getElementById('intro');
-  const openBtn = document.getElementById('openBtn');
-  const skipBtn = document.getElementById('skipBtn');
-  const music = document.getElementById('music');
-  const musicBtn = document.getElementById('musicBtn');
-  let started = false;
+/* ===== Datos para completar ===== */
+const HORA = '';            // ej. '17:30' (hora de Rio). Vacío = "Hora por confirmar"
+const WHATSAPP = '';        // número con código de país, sin + ni espacios, ej. '5491122334455'
+/* =============================== */
 
-  function start(){
-    if (started) return;
-    started = true;
-    intro.classList.add('hide');
-    stage.classList.add('go');
-    if (!musicBtn.hidden) {
-      music.play().then(() => musicBtn.textContent = '❚❚ Pausar').catch(() => {});
-    }
+const $ = id => document.getElementById(id);
+const opening = $('opening'), video = $('video'), tap = $('tap'), soundBtn = $('sound');
+let finished = false;
+
+function finish(){
+  if (finished) return;
+  finished = true;
+  video.pause();
+  document.body.classList.remove('locked');
+  document.body.classList.add('ready');
+  window.scrollTo(0, 0);
+  opening.classList.add('fade');
+  setTimeout(() => { opening.hidden = true; }, 1700);
+}
+function play(){
+  const p = video.play();
+  if (p && p.catch) p.catch(() => { tap.hidden = false; });
+}
+video.addEventListener('ended', finish);
+video.addEventListener('error', finish);
+$('skip').addEventListener('click', finish);
+tap.addEventListener('click', () => { tap.hidden = true; play(); });
+soundBtn.addEventListener('click', () => {
+  video.muted = !video.muted;
+  soundBtn.textContent = video.muted ? '🔈 Activar sonido' : '🔊 Sonido activado';
+  if (video.paused && !finished) play();
+});
+play();
+// Si el navegador no logra cargar el video en 12 s, mostrar la invitación igual
+setTimeout(() => { if (!finished && video.currentTime === 0 && tap.hidden) finish(); }, 12000);
+
+$('replay').addEventListener('click', () => {
+  finished = false;
+  document.body.classList.remove('ready');
+  document.body.classList.add('locked');
+  opening.hidden = false;
+  requestAnimationFrame(() => opening.classList.remove('fade'));
+  video.currentTime = 0;
+  play();
+});
+
+/* Hora y cuenta regresiva (Rio = UTC−3, sin horario de verano) */
+let hh = 0, mm = 0;
+if (HORA) { [hh, mm] = HORA.split(':').map(Number); $('hora').textContent = HORA + ' h'; }
+const TARGET = new Date(Date.UTC(2027, 2, 27, hh + 3, mm));
+
+function addMonths(d, m){ const x = new Date(d); x.setUTCMonth(x.getUTCMonth() + m); return x; }
+function tick(){
+  const now = new Date();
+  if (now >= TARGET) {
+    $('count').innerHTML = '<div class="count-done">¡Llegó el gran día!</div>';
+    clearInterval(timer);
+    return;
   }
-  openBtn.addEventListener('click', start);
-  skipBtn.addEventListener('click', () => {
-    start();
-    document.getElementById('invite').scrollIntoView({ behavior: 'smooth' });
-  });
+  let meses = (TARGET.getUTCFullYear() - now.getUTCFullYear()) * 12 + TARGET.getUTCMonth() - now.getUTCMonth();
+  if (addMonths(now, meses) > TARGET) meses--;
+  let ms = TARGET - addMonths(now, meses);
+  const d = Math.floor(ms / 864e5); ms %= 864e5;
+  const h = Math.floor(ms / 36e5); ms %= 36e5;
+  const m = Math.floor(ms / 6e4); ms %= 6e4;
+  const s = Math.floor(ms / 1e3);
+  $('cMeses').textContent = meses;
+  $('cDias').textContent = d;
+  $('cHoras').textContent = String(h).padStart(2, '0');
+  $('cMin').textContent = String(m).padStart(2, '0');
+  $('cSeg').textContent = String(s).padStart(2, '0');
+}
+const timer = setInterval(tick, 1000);
+tick();
 
-  // Música: el botón aparece solo si existe musica.mp3 en el sitio
-  fetch('musica.mp3', { method: 'HEAD' })
-    .then(r => { if (r.ok) musicBtn.hidden = false; })
-    .catch(() => {});
-  musicBtn.addEventListener('click', () => {
-    if (music.paused) { music.play(); musicBtn.textContent = '❚❚ Pausar'; }
-    else { music.pause(); musicBtn.textContent = '♪ Música'; }
-  });
+/* WhatsApp */
+function wa(text){ return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(text); }
+$('yes').href = wa('¡Hola Sol y Nico! Confirmo mi asistencia a su boda el sábado 27 de marzo de 2027 en Rio. ¡Ahí estaré! 🤍');
+$('no').href  = wa('¡Hola Sol y Nico! Lamentablemente no podré asistir a su boda el 27 de marzo de 2027. ¡Les deseo lo mejor! 🤍');
 
-  // Contador hacia el 27/03/2027 a las 15:30 (hora de Brasil, UTC−3 = 18:30 UTC)
-  const TARGET = Date.UTC(2027, 2, 27, 18, 30);
-  const $ = id => document.getElementById(id);
-
-  function faltan(now){
-    const t = new Date(TARGET);
-    const addMonths = m => { const d = new Date(now.getTime()); d.setUTCMonth(d.getUTCMonth() + m); return d; };
-    let meses = (t.getUTCFullYear() - now.getUTCFullYear()) * 12 + (t.getUTCMonth() - now.getUTCMonth());
-    if (addMonths(meses) > t) meses--;
-    let ms = t - addMonths(meses);
-    const dias = Math.floor(ms / 864e5); ms %= 864e5;
-    const horas = Math.floor(ms / 36e5); ms %= 36e5;
-    const min = Math.floor(ms / 6e4); ms %= 6e4;
-    const seg = Math.floor(ms / 1e3);
-    return { meses, dias, horas, min, seg };
+/* Calendario: iPhone/iPad abre el archivo .ics en Calendario; el resto, Google Calendar */
+(function(){
+  const title = 'Boda de Sol & Nico';
+  const where = 'Som do Mar, Praia da Reserva, Barra da Tijuca, Rio de Janeiro';
+  const details = 'Dress code: cocktail elegante, en tonos pasteles, sin blanco y sin shorts.';
+  const pad = n => String(n).padStart(2, '0');
+  const utc = d => d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z';
+  const dates = HORA ? utc(TARGET) + '/' + utc(new Date(TARGET.getTime() + 6 * 36e5)) : '20270327/20270328';
+  const g = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) +
+            '&dates=' + dates + '&location=' + encodeURIComponent(where) + '&details=' + encodeURIComponent(details);
+  const cal = $('cal');
+  cal.href = g;
+  const iOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (iOS) {
+    const [s, e] = dates.split('/');
+    const when = HORA ? 'DTSTART:' + s + '\r\nDTEND:' + e : 'DTSTART;VALUE=DATE:' + s + '\r\nDTEND;VALUE=DATE:' + e;
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//SolNico//ES','BEGIN:VEVENT','UID:boda-sol-nico-20270327',
+      'DTSTAMP:' + utc(new Date()), when, 'SUMMARY:' + title, 'LOCATION:' + where.replace(/,/g, '\\,'),
+      'DESCRIPTION:' + details.replace(/,/g, '\\,'), 'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    cal.removeAttribute('target');
+    cal.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    cal.setAttribute('download', 'boda-sol-nico.ics');
   }
+})();
 
-  function tick(){
-    const now = new Date();
-    if (now >= TARGET) {
-      $('count').innerHTML = '<div class="count-done">¡Hoy nos casamos! 🤍</div>';
-      return;
-    }
-    const f = faltan(now);
-    $('cMeses').textContent = f.meses;
-    $('cDias').textContent = f.dias;
-    $('cHoras').textContent = String(f.horas).padStart(2, '0');
-    $('cMin').textContent = String(f.min).padStart(2, '0');
-    $('cSeg').textContent = String(f.seg).padStart(2, '0');
-  }
-  tick();
-  setInterval(tick, 1000);
-
-  // Revelar secciones al hacer scroll
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+/* Fundidos al hacer scroll */
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .2 }) : null;
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
 </script>
 </body>
 </html>
