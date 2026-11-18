@@ -68,14 +68,14 @@
   /* Sistema tipográfico
      Pinyon Script: solo los nombres.  Bodoni Moda 400: fechas, títulos y la frase.  Outfit 300/400: textos, etiquetas y botones.
      Escala: 10.5 · 13 · 15 · 17 · 28 · 64 px.  Un solo color de texto (ciruela) en dos intensidades; dorado solo para filetes. */
-  .hero-text{position:absolute;left:0;right:0;top:calc(178 * var(--u));padding:0 max(34px, env(safe-area-inset-left,0px)) 0 max(34px, env(safe-area-inset-right,0px))}
+  .hero-text{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 92 * var(--u));padding:0 max(28px, env(safe-area-inset-left,0px)) 0 max(28px, env(safe-area-inset-right,0px))}
   .hero-text p{opacity:0;transform:translateY(10px);transition:opacity 2s ease,transform 2s ease;text-wrap:balance;text-shadow:0 0 18px rgba(255,238,236,.7)}
-  .hero-text .l1{font-family:var(--serif);font-weight:400;font-size:clamp(19px,calc(33 * var(--u)),23px);line-height:1.45;letter-spacing:-.005em;color:var(--plum);hanging-punctuation:first last;transition-delay:.5s}
+  .hero-text .l1{font-family:var(--serif);font-weight:400;font-size:clamp(17px,calc(31 * var(--u)),23px);line-height:1.4;letter-spacing:-.005em;color:var(--plum);hanging-punctuation:first last;transition-delay:.5s}
   .hero-text .l1 em{font-style:italic}
-  .hero-text .l2{font-family:var(--serif);font-weight:400;font-size:clamp(12.5px,calc(20 * var(--u)),14px);line-height:1.55;letter-spacing:.02em;color:var(--plum-soft);margin-top:18px;transition-delay:2.2s}
+  .hero-text .l2{font-family:var(--serif);font-weight:400;font-size:clamp(12.5px,calc(20 * var(--u)),14px);line-height:1.55;letter-spacing:.02em;color:var(--plum-soft);margin-top:12px;transition-delay:2.2s}
   .hero-text .dash{display:inline-block;font-family:var(--sans);font-weight:400;color:var(--plum);transform:scaleX(1.6);margin-right:.55em}
-  .hero-text .thanks{font-family:var(--sans);font-weight:300;font-size:clamp(13px,calc(22 * var(--u)),15px);letter-spacing:.06em;color:var(--plum);margin-top:34px;transition-delay:3.8s}
-  .hero-text .thanks::before{content:"";display:block;width:28px;height:1px;margin:0 auto 18px;background:var(--hair)}
+  .hero-text .thanks{font-family:var(--sans);font-weight:300;font-size:clamp(13px,calc(22 * var(--u)),15px);letter-spacing:.06em;color:var(--plum);margin-top:22px;transition-delay:3.8s}
+  .hero-text .thanks::before{content:"";display:block;width:28px;height:1px;margin:0 auto 14px;background:var(--hair)}
   .ready .hero-text p{opacity:1;transform:none}
   .intro{text-align:center;padding:10px 0 2px}
   .intro .names{font-family:var(--script);font-weight:400;font-size:64px;line-height:1;color:var(--plum)}
