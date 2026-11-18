@@ -57,7 +57,18 @@
   .ctrl{position:absolute;z-index:2;border:0;border-radius:999px;background:rgba(255,248,241,.72);color:var(--plum);
     font-family:var(--sans);font-size:12px;letter-spacing:.08em;padding:9px 14px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
   .skip{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
-  .sound{bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%)}
+  /* botón de música: flota abajo a la derecha de la columna, encima del video y de la página */
+  .music-btn{position:fixed;z-index:60;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:calc((100vw - var(--colw)) / 2 + 16px);
+    display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 12px;border:0;border-radius:999px;cursor:pointer;
+    background:rgba(255,248,241,.78);color:var(--plum);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 6px 18px -8px rgba(110,42,74,.45);
+    font-family:var(--sans);font-size:10px;font-weight:400;letter-spacing:.24em;text-transform:uppercase}
+  .bars{display:inline-flex;align-items:flex-end;gap:2px;height:12px}
+  .bars i{width:2px;height:4px;background:currentColor;border-radius:1px}
+  .music-btn.on .bars i{animation:eq 1.1s ease-in-out infinite}
+  .music-btn.on .bars i:nth-child(2){animation-delay:-.4s}
+  .music-btn.on .bars i:nth-child(3){animation-delay:-.75s}
+  @keyframes eq{0%,100%{height:4px}50%{height:12px}}
+  .music-btn:not(.on) .mlabel{text-decoration:line-through;text-decoration-thickness:1px}
   .tap[hidden]{display:none}
   .tap{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;border:0;background:rgba(224,175,189,.25);cursor:pointer}
   .tap span{background:rgba(255,248,241,.85);color:var(--plum);border-radius:999px;padding:15px 26px;font-family:var(--sans);font-size:14px;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 10px 30px rgba(110,42,74,.2)}
@@ -160,12 +171,16 @@
 <!-- PARTE 1: video de apertura -->
 <div class="opening" id="opening" role="dialog" aria-label="Video de la invitación">
   <div class="screen">
-    <video id="video" src="invitacion.mp4" poster="poster.jpg" autoplay muted playsinline webkit-playsinline preload="auto"></video>
+    <video id="video" src="invitacion.mp4" poster="poster.jpg" muted playsinline webkit-playsinline preload="auto"></video>
     <button class="ctrl skip" id="skip" type="button">Saltar ›</button>
-    <button class="ctrl sound" id="sound" type="button">🔈 Activar sonido</button>
     <button class="tap" id="tap" type="button" hidden><span>Toca para abrir</span></button>
   </div>
 </div>
+
+<audio id="music" src="musica.mp3" loop preload="auto"></audio>
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Música" hidden>
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="mlabel">Música</span>
+</button>
 
 <div class="page">
 
@@ -268,8 +283,32 @@ const WHATSAPP = '';        // número con código de país, sin + ni espacios, 
 /* =============================== */
 
 const $ = id => document.getElementById(id);
-const opening = $('opening'), video = $('video'), tap = $('tap'), soundBtn = $('sound');
-let finished = false;
+const opening = $('opening'), video = $('video'), tap = $('tap');
+const music = $('music'), musicBtn = $('musicBtn');
+let finished = false, started = false, musicWanted = true;
+
+/* Música: suena en bucle desde que se abre la invitación hasta que se cierra.
+   Los celulares no dejan sonar audio sin un toque, así que primero se intenta
+   sola; si el navegador la bloquea, el sobre muestra "Toca para abrir". */
+function setMusicUI(){ musicBtn.classList.toggle('on', !music.paused); musicBtn.setAttribute('aria-pressed', String(!music.paused)); }
+music.addEventListener('play', setMusicUI);
+music.addEventListener('pause', setMusicUI);
+music.volume = 0.8;
+function startMusic(){
+  if (!musicWanted) return Promise.resolve();
+  return music.play().then(() => { musicBtn.hidden = false; });
+}
+musicBtn.addEventListener('click', () => {
+  if (music.paused) { musicWanted = true; music.play().catch(() => {}); }
+  else { musicWanted = false; music.pause(); }
+});
+// Si se sale de la página (otra app, bloqueo de pantalla) se pausa; al volver, sigue.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) music.pause();
+  else if (musicWanted && started) music.play().catch(() => {});
+});
+// Respaldo: cualquier toque en la página reanuda la música si quedó en pausa.
+document.addEventListener('pointerdown', () => { if (started && musicWanted && music.paused) music.play().catch(() => {}); }, { passive: true });
 
 function finish(){
   if (finished) return;
@@ -283,20 +322,23 @@ function finish(){
 }
 function play(){
   const p = video.play();
-  if (p && p.catch) p.catch(() => { tap.hidden = false; });
+  if (p && p.catch) p.catch(() => finish());
+}
+function begin(){
+  if (started) return;
+  started = true;
+  tap.hidden = true;
+  play();
+  // Si el video no carga en 12 s, mostrar la invitación igual
+  setTimeout(() => { if (!finished && video.currentTime === 0) finish(); }, 12000);
 }
 video.addEventListener('ended', finish);
 video.addEventListener('error', finish);
-$('skip').addEventListener('click', finish);
-tap.addEventListener('click', () => { tap.hidden = true; play(); });
-soundBtn.addEventListener('click', () => {
-  video.muted = !video.muted;
-  soundBtn.textContent = video.muted ? '🔈 Activar sonido' : '🔊 Sonido activado';
-  if (video.paused && !finished) play();
-});
-play();
-// Si el navegador no logra cargar el video en 12 s, mostrar la invitación igual
-setTimeout(() => { if (!finished && video.currentTime === 0 && tap.hidden) finish(); }, 12000);
+$('skip').addEventListener('click', () => { if (!started) { startMusic().catch(() => {}); started = true; } finish(); });
+tap.addEventListener('click', () => { startMusic().catch(() => {}); begin(); });
+
+// Intento de arranque automático con sonido
+startMusic().then(begin).catch(() => { tap.hidden = false; });
 
 $('replay').addEventListener('click', () => {
   finished = false;
