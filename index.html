@@ -199,8 +199,7 @@
   .with-love{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--plum-soft);margin-top:40px}
   .sign{font-family:var(--script);font-size:50px;line-height:1.1;margin-top:2px}
   .sign-date{font-family:var(--serif);font-size:13px;letter-spacing:.32em;text-indent:.32em;color:var(--plum-soft);margin-top:6px}
-  .vignette{width:150px;height:170px;margin:26px auto 0;border-radius:75px 75px 8px 8px;background:url(pareja.jpg) 39% 24%/200% auto;
-    box-shadow:0 0 0 1px rgba(185,138,62,.5), 0 0 0 6px rgba(255,255,255,.5), 0 0 0 7px rgba(185,138,62,.25)}
+  .mark{display:block;width:180px;height:auto;margin:30px auto 0;color:var(--gold)}
   .replay{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:10px 4px;border:0;cursor:pointer;background:none;
     font-size:10px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;color:var(--plum-soft)}
 
@@ -344,7 +343,11 @@
         <p class="with-love reveal">Con amor,</p>
         <p class="sign reveal">Sol &amp; Nico</p>
         <p class="sign-date reveal">27 · 03 · 2027</p>
-        <div class="vignette reveal" role="img" aria-label="Sol y Nico bailando en la playa"></div>
+        <svg class="mark reveal" viewBox="0 0 200 70" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 40 H72"/><path d="M128 40 H192"/>
+          <path d="M100 60 C86 50 74 41 74 30 C74 22 80 17 87 17 C93 17 97 21 100 26 C103 21 107 17 113 17 C120 17 126 22 126 30 C126 41 114 50 100 60 Z"/>
+          <path d="M100 8 l1.2 3.2 3.2 1.2 -3.2 1.2 -1.2 3.2 -1.2 -3.2 -3.2 -1.2 3.2 -1.2z" fill="currentColor" stroke="none"/>
+        </svg>
         <button class="replay reveal" id="replay" type="button"><span aria-hidden="true">↺</span> Volver a ver el video</button>
       </section>
 
