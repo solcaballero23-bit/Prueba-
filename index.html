@@ -221,7 +221,7 @@
   <div class="screen">
     <video id="video" src="invitacion.mp4" poster="poster.jpg" muted playsinline webkit-playsinline preload="auto"></video>
     <button class="ctrl skip" id="skip" type="button">Saltar ›</button>
-    <button class="tap" id="tap" type="button" hidden><span>Toca para abrir</span></button>
+    <button class="tap" id="tap" type="button" hidden><span>Tocá para abrir</span></button>
   </div>
 </div>
 
@@ -249,7 +249,7 @@
       <p class="l2"><span class="dash">-</span>fue como volver a casa después de un día muy, muy largo</p>
       <p class="thanks">Gracias por ser parte de nuestra historia!</p>
     </div>
-    <p class="scroll-cue" aria-hidden="true">Desliza ↓</p>
+    <p class="scroll-cue" aria-hidden="true">Deslizá ↓</p>
   </header>
 
 
@@ -321,7 +321,7 @@
         <p class="sub reveal">dress code</p>
         <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
         <p class="dress-title reveal">Cocktail elegante</p>
-        <p class="swatch-note reveal">inspírate en los colores del atardecer</p>
+        <p class="swatch-note reveal">inspirate en los colores del atardecer</p>
         <p class="look-intro reveal">Lo importante es que te sientas vos. Aquí, algunas ideas para inspirarte.</p>
         <img class="lookbook reveal" src="vestimenta.jpg" width="880" height="1099" loading="lazy" decoding="async"
              alt="Ilustración de invitados en la playa con vestidos largos y trajes en tonos pastel">
@@ -334,9 +334,9 @@
         <span class="star" style="top:150px;left:36px;width:6px;height:6px"><svg><use href="#i-star"/></svg></span>
         <div class="icon reveal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="1.5"/><path d="m3.5 7 8.5 6.5L20.5 7"/></svg></div>
         <h2 class="kicker reveal" id="t-rsvp">Confirmación</h2>
-        <p class="sub reveal">¿nos acompañas?</p>
+        <p class="sub reveal">¿nos acompañás?</p>
         <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
-        <p class="rsvp-note reveal">Avísanos con un toque y se abrirá WhatsApp con el mensaje listo.</p>
+        <p class="rsvp-note reveal">Avisanos con un toque y se abrirá WhatsApp con el mensaje listo.</p>
         <div class="choice reveal">
           <a class="yes" id="yes" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Confirmo<br>asistencia</a>
           <a id="no" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>No podré<br>asistir</a>
@@ -365,7 +365,7 @@ let finished = false, started = false, musicWanted = true;
 
 /* Música: suena en bucle desde que se abre la invitación hasta que se cierra.
    Los celulares no dejan sonar audio sin un toque, así que primero se intenta
-   sola; si el navegador la bloquea, el sobre muestra "Toca para abrir". */
+   sola; si el navegador la bloquea, el sobre muestra "Tocá para abrir". */
 function setMusicUI(){ musicBtn.classList.toggle('on', !music.paused); musicBtn.setAttribute('aria-pressed', String(!music.paused)); }
 music.addEventListener('play', setMusicUI);
 music.addEventListener('pause', setMusicUI);
