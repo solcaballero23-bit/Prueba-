@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sol &amp; Nico · ¡Nos casamos!</title>
+<meta name="description" content="Sábado 27 de marzo de 2027 · Som do Mar, Praia da Reserva · Rio de Janeiro">
+<meta name="theme-color" content="#e0afbd">
+<!-- Vista previa al compartir por WhatsApp. Cuando la página esté publicada,
+     cambia "fondo.jpg" por la dirección completa (https://.../fondo.jpg). -->
+<meta property="og:title" content="Sol &amp; Nico · ¡Nos casamos!">
+<meta property="og:description" content="Sábado 27 de marzo de 2027 · Rio de Janeiro">
+<meta property="og:image" content="fondo.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="poster.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Outfit:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  /* Columna de celular 9:16; arriba la última imagen del video (cielo y mar), abajo la arena con el contenido. */
+  :root{
+    --plum:#6e2a4a;        /* texto principal, igual al del video */
+    --plum-soft:rgba(110,42,74,.72);  /* mismo tono, menos peso */
+    --hair:rgba(185,138,62,.6);
+    --rose:#e0afbd;        /* cielo */
+    --peach:#f4c9a6;
+    --gold:#b98a3e;
+    --lilac:#b7a0cf;
+    --sea:#8fc3c4;
+    --sand:#dca485;        /* arena al pie de la imagen */
+    --sand-light:#f3dcc4;
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    --paper:rgba(255,248,241,.78);
+    --script:"Pinyon Script","Great Vibes",cursive;
+    --serif:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+    --sans:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --colw:min(100vw, calc(100svh * 9 / 16));
+    --u:calc(100svh / 1280);   /* 1 px de la imagen original (720×1280) */
+    color-scheme:light;
+  }
+  @supports not (height:100svh){ :root{ --colw:min(100vw, calc(100vh * 9 / 16)); --u:calc(100vh / 1280); } }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:#c98f74;color:var(--plum);font-family:var(--sans);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-kerning:normal;font-optical-sizing:auto;-webkit-tap-highlight-color:transparent}
+  body.locked{overflow:hidden;height:100svh}
+  button,a{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+  .page{position:relative;width:var(--colw);margin:0 auto;background:var(--sand);overflow:hidden;box-shadow:0 0 60px rgba(90,40,60,.25)}
+
+  /* ---------- PARTE 1: video de apertura ---------- */
+  .opening{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;background:#c98f74;transition:opacity 1.6s ease}
+  .opening.fade{opacity:0;pointer-events:none;background:transparent}
+  /* al fundirse, la zona de la pareja deja ver enseguida la pareja que sigue girando debajo */
+  .opening.fade .screen{--hole:radial-gradient(ellipse calc(125 * var(--u)) calc(135 * var(--u)) at calc((100% - 720 * var(--u)) / 2 + 265 * var(--u)) calc(1010 * var(--u)),transparent 55%,#000 100%);
+    -webkit-mask-image:var(--hole);mask-image:var(--hole)}
+  .opening[hidden]{display:none}
+  .opening .screen{position:relative;width:var(--colw);height:100%;overflow:hidden;background:url(poster.jpg) center/cover var(--rose)}
+  .opening video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .ctrl{position:absolute;z-index:2;border:0;border-radius:999px;background:rgba(255,248,241,.72);color:var(--plum);
+    font-family:var(--sans);font-size:12px;letter-spacing:.08em;padding:9px 14px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .skip{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+  /* botón de música: flota abajo a la derecha de la columna, encima del video y de la página */
+  .music-btn{position:fixed;z-index:60;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:calc((100vw - var(--colw)) / 2 + 16px);
+    display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 12px;border:0;border-radius:999px;cursor:pointer;
+    background:rgba(255,248,241,.78);color:var(--plum);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 6px 18px -8px rgba(110,42,74,.45);
+    font-family:var(--sans);font-size:10px;font-weight:400;letter-spacing:.24em;text-transform:uppercase}
+  .bars{display:inline-flex;align-items:flex-end;gap:2px;height:12px}
+  .bars i{width:2px;height:4px;background:currentColor;border-radius:1px}
+  .music-btn.on .bars i{animation:eq 1.1s ease-in-out infinite}
+  .music-btn.on .bars i:nth-child(2){animation-delay:-.4s}
+  .music-btn.on .bars i:nth-child(3){animation-delay:-.75s}
+  @keyframes eq{0%,100%{height:4px}50%{height:12px}}
+  .music-btn:not(.on) .mlabel{text-decoration:line-through;text-decoration-thickness:1px}
+  .tap[hidden]{display:none}
+  .tap.loading{cursor:default}
+  .tap.loading span{opacity:.85;animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.45}}
+  .tap{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;border:0;background:rgba(224,175,189,.25);cursor:pointer}
+  .tap span{background:rgba(255,248,241,.85);color:var(--plum);border-radius:999px;padding:15px 26px;font-family:var(--sans);font-size:14px;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 10px 30px rgba(110,42,74,.2)}
+
+  /* ---------- PARTE 2: portada (última imagen del video sin texto) ---------- */
+  .hero{position:relative;height:100svh;min-height:520px;background:url(fondo.jpg) center top/cover var(--rose);text-align:center}
+  @supports not (height:100svh){ .hero{height:100vh} }
+  /* Sistema tipográfico
+     Pinyon Script: solo los nombres.  Bodoni Moda 400: fechas, títulos y la frase.  Outfit 300/400: textos, etiquetas y botones.
+     Escala: 10.5 · 13 · 15 · 17 · 28 · 64 px.  Un solo color de texto (ciruela) en dos intensidades; dorado solo para filetes. */
+  .hero-text{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 92 * var(--u));padding:0 max(28px, env(safe-area-inset-left,0px)) 0 max(28px, env(safe-area-inset-right,0px))}
+  .hero-text p{opacity:0;transform:translateY(10px);transition:opacity 2s ease,transform 2s ease;text-wrap:balance;text-shadow:0 0 18px rgba(255,238,236,.7)}
+  .hero-text .l1{font-family:var(--serif);font-weight:400;font-size:clamp(17px,calc(31 * var(--u)),23px);line-height:1.4;letter-spacing:-.005em;color:var(--plum);hanging-punctuation:first last;transition-delay:.5s}
+  .hero-text .l1 em{font-style:italic}
+  .hero-text .l2{font-family:var(--serif);font-weight:400;font-size:clamp(12.5px,calc(20 * var(--u)),14px);line-height:1.55;letter-spacing:.02em;color:var(--plum-soft);margin-top:12px;transition-delay:2.2s}
+  .hero-text .dash{display:inline-block;font-family:var(--sans);font-weight:400;color:var(--plum);transform:scaleX(1.6);margin-right:.55em}
+  .hero-text .thanks{font-family:var(--sans);font-weight:300;font-size:clamp(13px,calc(22 * var(--u)),15px);letter-spacing:.06em;color:var(--plum);margin-top:22px;transition-delay:3.8s}
+  .hero-text .thanks::before{content:"";display:block;width:28px;height:1px;margin:0 auto 14px;background:var(--hair)}
+  .ready .hero-text p{opacity:1;transform:none}
+  .intro{text-align:center;padding:10px 0 2px}
+  .intro .names{font-family:var(--script);font-weight:400;font-size:64px;line-height:1;color:var(--plum)}
+  .intro .wed{font-family:var(--serif);font-style:italic;font-weight:400;font-size:19px;letter-spacing:.01em;color:var(--plum);margin-top:8px}
+  .scroll-cue{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom,0px));font-size:10px;font-weight:400;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;
+    color:#fff;text-shadow:0 1px 8px rgba(110,42,74,.45);opacity:0;transition:opacity 1.2s ease 5s}
+  .ready .scroll-cue{opacity:1;animation:bob 2.4s ease-in-out 6.2s infinite}
+  @keyframes bob{50%{transform:translateY(6px)}}
+
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(transparent,var(--sand));pointer-events:none}
+  /* la pareja sigue girando ~3 s más y se queda quieta: recorte alineado con la imagen de fondo, con bordes difuminados */
+  .couple{position:absolute;left:calc((100% - 720 * var(--u)) / 2 + 130 * var(--u));top:calc(880 * var(--u));width:calc(270 * var(--u));height:calc(270 * var(--u));
+    object-fit:fill;pointer-events:none;
+    -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 47%,#000 58%,transparent 97%);mask-image:radial-gradient(ellipse 50% 50% at 50% 47%,#000 58%,transparent 97%)}
+  /* olas sobre el mar de la imagen */
+  .sea-fx{position:absolute;left:0;right:0;top:calc(866 * var(--u));height:calc(80 * var(--u));pointer-events:none;overflow:hidden;opacity:.55;filter:blur(1.2px);
+    -webkit-mask:linear-gradient(transparent,#000 20%,#000 80%,transparent);mask:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+  .sea-fx svg{position:absolute;left:-50%;width:200%;height:100%;animation:drift 14s linear infinite}
+  .sea-fx svg:nth-child(2){animation-duration:22s;animation-direction:reverse;opacity:.7}
+  @keyframes drift{to{transform:translateX(25%)}}
+  .sparkle{position:absolute;top:calc(860 * var(--u));left:50%;width:calc(70 * var(--u));height:calc(150 * var(--u));transform:translateX(-160%);
+    background:radial-gradient(closest-side,rgba(255,236,190,.55),transparent);filter:blur(2px);animation:glint 4s ease-in-out infinite}
+  @keyframes glint{50%{opacity:.35}}
+
+
+  /* ---------- PÁGINAS: cuatro hojas de papel sobre la arena ---------- */
+  .beach{position:relative;padding:28px max(14px, env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) max(14px, env(safe-area-inset-left,0px));
+    background:linear-gradient(var(--sand) 0, #e9bea0 30%, #efcfb6 65%, #f3dcc4 100%)}
+  .beach::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;background-image:var(--grain)}
+  .stack{position:relative;display:flex;flex-direction:column;gap:30px;max-width:460px;margin:0 auto}
+
+  .sheet{position:relative;min-height:calc(100svh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:58px 30px 54px;border-radius:4px;color:var(--plum);
+    background:
+      radial-gradient(120% 60% at 0% 0%, rgba(244,198,207,.55), transparent 55%),
+      radial-gradient(90% 50% at 100% 100%, rgba(246,205,170,.55), transparent 60%),
+      radial-gradient(70% 40% at 100% 0%, rgba(205,191,230,.28), transparent 60%),
+      #fcf5ee;
+    box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 30px 50px -30px rgba(110,42,74,.55), 0 4px 12px -6px rgba(110,42,74,.25)}
+  @supports not (height:100svh){ .sheet{min-height:calc(100vh - 56px)} }
+  .sheet::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:var(--grain)}
+  /* marco doble dorado */
+  .sheet::after{content:"";position:absolute;inset:12px;pointer-events:none;border:1px solid rgba(185,138,62,.5);border-radius:2px;
+    box-shadow:0 0 0 3px #fcf5ee00, inset 0 0 0 4px rgba(252,245,238,0), inset 0 0 0 5px rgba(185,138,62,.22)}
+  .sheet > *{position:relative;z-index:1}
+  .star{position:absolute;z-index:1;width:9px;height:9px;color:var(--gold);opacity:.55}
+  .star svg{display:block;width:100%;height:100%}
+
+  /* encabezado común de cada hoja */
+  .icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:var(--gold);
+    background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(185,138,62,.45), 0 0 0 5px rgba(255,255,255,.35)}
+  .icon svg{width:24px;height:24px}
+  .kicker{font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:.2em;text-indent:.2em;text-transform:uppercase;color:var(--plum);margin-top:22px;line-height:1.2}
+  .sub{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--plum-soft);margin-top:6px}
+  .orn{display:block;width:150px;height:14px;margin:20px auto 0;color:var(--gold)}
+
+  /* Hoja 1: nombres, fecha, conteo */
+  .lead{font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.5;color:var(--plum-soft);text-wrap:balance;max-width:25ch;margin-bottom:6px}
+  .names{font-family:var(--script);font-weight:400;font-size:66px;line-height:1;color:var(--plum);margin-top:10px}
+  .wed{font-family:var(--serif);font-size:13px;letter-spacing:.34em;text-indent:.34em;text-transform:uppercase;color:var(--plum);margin-top:14px}
+  .datebox{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;width:100%;max-width:290px;margin:30px auto 0}
+  .datebox .side{font-family:var(--serif);font-size:13px;letter-spacing:.24em;text-indent:.24em;text-transform:uppercase;padding:9px 0;
+    border-top:1px solid rgba(185,138,62,.6);border-bottom:1px solid rgba(185,138,62,.6)}
+  .datebox .day{font-family:var(--serif);font-size:54px;line-height:1;font-variant-numeric:lining-nums}
+  .year{font-family:var(--serif);font-size:15px;letter-spacing:.42em;text-indent:.42em;margin-top:10px}
+  .time{margin-top:16px;font-size:14px;line-height:1.5;color:var(--plum-soft)}
+  .note{font-family:var(--serif);font-style:italic;font-size:12.5px;line-height:1.5;color:var(--plum-soft);opacity:.85;margin:6px auto 0;max-width:30ch;text-wrap:balance}
+  .count-label{margin-top:34px}
+  .count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%;max-width:300px;margin:14px auto 0}
+  .unit{padding:14px 0 11px;border-radius:10px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(185,138,62,.38)}
+  .unit b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;line-height:1;font-variant-numeric:lining-nums tabular-nums}
+  .unit span{display:block;margin-top:8px;font-size:9px;font-weight:400;letter-spacing:.2em;text-indent:.2em;text-transform:uppercase;color:var(--plum-soft)}
+  .count-done{grid-column:1/-1;font-family:var(--script);font-size:44px;line-height:1.1;padding:4px 0}
+
+  .eyebrow{font-family:var(--sans);font-size:10px;font-weight:400;line-height:1;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:var(--plum-soft)}
+
+  /* Hoja 2: lugar */
+  .venue{font-family:var(--script);font-size:54px;line-height:1.1;margin-top:28px}
+  .addr{font-size:15px;line-height:1.7;color:var(--plum-soft);margin-top:8px}
+  .skyline{display:block;width:100%;max-width:280px;height:auto;margin:28px auto 0;color:var(--gold)}
+
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;max-width:280px;min-height:50px;margin:0 auto;padding:12px 20px;border-radius:999px;
+    font-family:var(--serif);font-size:14px;font-weight:400;letter-spacing:.2em;text-indent:.2em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:0;transition:transform .2s ease,background .2s ease}
+  .btn:active{transform:scale(.98)}
+  .btn-main{background:rgba(255,255,255,.6);color:var(--plum);box-shadow:inset 0 0 0 1px rgba(185,138,62,.75), 0 0 0 4px rgba(255,255,255,.4)}
+  .btn-row{display:flex;flex-direction:column;gap:12px;width:100%;margin-top:30px}
+  .link{display:inline-block;margin-top:18px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--plum);text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:var(--hair);text-underline-offset:5px}
+
+  /* Hoja 3: vestimenta */
+  .dress-title{font-family:var(--script);font-size:44px;line-height:1.1;margin-top:28px}
+  .swatch-note{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--plum-soft);margin-top:12px}
+  .look-intro{font-family:var(--serif);font-style:italic;font-size:13.5px;line-height:1.5;color:var(--plum-soft);margin-top:22px;max-width:30ch;text-wrap:balance}
+  .lookbook{display:block;width:100%;height:auto;margin-top:16px;border-radius:6px;background:#f6e6da;
+    box-shadow:0 0 0 1px rgba(185,138,62,.55), 0 0 0 5px rgba(255,255,255,.55), 0 18px 32px -18px rgba(110,42,74,.55)}
+  .dress-rules{font-size:11px;font-weight:400;line-height:1.6;letter-spacing:.06em;color:var(--plum-soft);margin-top:18px;text-wrap:balance}
+  .dress-rules span{display:block;white-space:nowrap}
+
+  /* Hoja 4: confirmación */
+  .rsvp-note{font-size:15px;line-height:1.65;color:var(--plum-soft);margin-top:24px;max-width:28ch}
+  .choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:300px;margin:26px auto 0}
+  .choice a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:104px;padding:14px 8px;border-radius:12px;text-decoration:none;
+    font-family:var(--serif);font-size:15px;line-height:1.25;color:var(--plum);background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(185,138,62,.5);transition:transform .2s ease}
+  .choice a:active{transform:scale(.97)}
+  .choice a.yes{background:var(--plum);color:#fcf2ea;box-shadow:none}
+  .choice svg{width:22px;height:22px}
+  .with-love{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--plum-soft);margin-top:40px}
+  .sign{font-family:var(--script);font-size:50px;line-height:1.1;margin-top:2px}
+  .sign-date{font-family:var(--serif);font-size:13px;letter-spacing:.32em;text-indent:.32em;color:var(--plum-soft);margin-top:6px}
+  .mark{display:block;width:180px;height:auto;margin:30px auto 0;color:var(--gold)}
+  .replay{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:10px 4px;border:0;cursor:pointer;background:none;
+    font-size:10px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;color:var(--plum-soft)}
+
+  /* fundido al aparecer (solo si hay JS; sin JS todo queda visible) */
+  .js .reveal{opacity:0;transform:translateY(22px);transition:opacity 1.2s ease,transform 1.2s ease}
+  .js .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition-duration:.01s!important}
+  }
+</style>
+</head>
+<body class="locked">
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- PARTE 1: video de apertura -->
+<div class="opening" id="opening" role="dialog" aria-label="Video de la invitación">
+  <div class="screen">
+    <video id="video" data-src="invitacion.mp4" poster="poster.jpg" muted playsinline webkit-playsinline preload="auto"></video>
+    <button class="ctrl skip" id="skip" type="button">Saltar ›</button>
+    <button class="tap loading" id="tap" type="button" aria-busy="true"><span>Cargando…</span></button>
+  </div>
+</div>
+
+<audio id="music" data-src="musica.mp3" loop preload="auto"></audio>
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Música" hidden>
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="mlabel">Música</span>
+</button>
+
+<div class="page">
+
+  <!-- PARTE 2: portada + fecha + cuenta regresiva -->
+  <header class="hero" id="top">
+    <div class="sparkle" aria-hidden="true"></div>
+    <div class="sea-fx" aria-hidden="true">
+      <svg viewBox="0 0 800 100" preserveAspectRatio="none"><g fill="none" stroke="rgba(255,255,255,.55)" stroke-linecap="round">
+        <path stroke-width="1.6" d="M0 28 q50 -8 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/>
+        <path stroke-width="2.2" d="M0 62 q50 -10 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/></g></svg>
+      <svg viewBox="0 0 800 100" preserveAspectRatio="none"><g fill="none" stroke="rgba(255,250,240,.5)" stroke-linecap="round">
+        <path stroke-width="1.3" d="M0 45 q40 -6 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0"/>
+        <path stroke-width="2.6" d="M0 84 q60 -9 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/></g></svg>
+    </div>
+    <video class="couple" id="couple" data-src="pareja.mp4" poster="pareja.jpg" muted playsinline webkit-playsinline preload="auto" aria-hidden="true"></video>
+    <div class="hero-text">
+      <p class="l1"><em>“De algún modo, mi alma conocía a tu alma antes de que tuviéramos la oportunidad de encontrarnos”</em></p>
+      <p class="l2"><span class="dash">-</span>fue como volver a casa después de un día muy, muy largo</p>
+      <p class="thanks">Gracias por ser parte de nuestra historia!</p>
+    </div>
+    <p class="scroll-cue" aria-hidden="true">Deslizá ↓</p>
+  </header>
+
+
+  <main class="beach">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-star" viewBox="0 0 10 10"><path fill="currentColor" d="M5 0 C5.4 3.6 6.4 4.6 10 5 C6.4 5.4 5.4 6.4 5 10 C4.6 6.4 3.6 5.4 0 5 C3.6 4.6 4.6 3.6 5 0Z"/></symbol>
+        <symbol id="i-orn" viewBox="0 0 150 14"><g fill="none" stroke="currentColor" stroke-width=".8"><path d="M0 7 H58"/><path d="M92 7 H150"/><path d="M62 7 C66 1 71 1 75 7 C79 13 84 13 88 7"/></g><path fill="currentColor" d="M75 3.6 C75.3 6.4 75.9 6.7 78 7 C75.9 7.3 75.3 7.6 75 10.4 C74.7 7.6 74.1 7.3 72 7 C74.1 6.7 74.7 6.4 75 3.6Z"/></symbol>
+      </defs>
+    </svg>
+    <div class="stack">
+
+      <!-- HOJA 1: nombres, fecha y cuenta regresiva -->
+      <section class="sheet" aria-labelledby="t-fecha">
+        <span class="star" style="top:34px;left:38px"><svg><use href="#i-star"/></svg></span>
+        <span class="star" style="top:96px;right:44px;width:6px;height:6px"><svg><use href="#i-star"/></svg></span>
+        <span class="star" style="bottom:70px;left:52px;width:7px;height:7px"><svg><use href="#i-star"/></svg></span>
+        <p class="lead reveal">Felices de compartirlo contigo,<br>te invitamos a celebrar este nuevo capítulo</p>
+        <h1 class="names reveal">Sol &amp; Nico</h1>
+        <p class="wed reveal">¡Nos casamos!</p>
+        <div class="reveal" style="width:100%">
+          <div class="datebox" id="t-fecha" aria-label="Sábado 27 de marzo de 2027">
+            <span class="side">Sábado</span><span class="day">27</span><span class="side">Marzo</span>
+          </div>
+          <p class="year">2027</p>
+          <p class="time"><span id="hora">16:00 h</span> · hora de Rio</p>
+          <p class="note">El horario podría tener pequeños cambios; te avisaremos con tiempo.</p>
+        </div>
+        <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
+        <div class="reveal" style="width:100%">
+          <p class="eyebrow count-label">Faltan</p>
+          <div class="count" id="count" role="timer" aria-live="off">
+            <div class="unit"><b id="cDias">–</b><span>días</span></div>
+            <div class="unit"><b id="cHoras">–</b><span>horas</span></div>
+            <div class="unit"><b id="cMin">–</b><span>min</span></div>
+            <div class="unit"><b id="cSeg">–</b><span>seg</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOJA 2: lugar -->
+      <section class="sheet" aria-labelledby="t-lugar">
+        <span class="star" style="top:40px;right:40px"><svg><use href="#i-star"/></svg></span>
+        <span class="star" style="bottom:90px;left:40px;width:6px;height:6px"><svg><use href="#i-star"/></svg></span>
+        <div class="icon reveal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></div>
+        <h2 class="kicker reveal" id="t-lugar">El lugar</h2>
+        <p class="sub reveal">frente al mar, al caer el sol</p>
+        <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
+        <p class="venue reveal">Som do Mar</p>
+        <p class="addr reveal">Praia da Reserva · Barra da Tijuca<br>Rio de Janeiro, Brasil</p>
+        <svg class="skyline reveal" viewBox="0 0 280 60" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 40 C30 38 44 30 58 33 C70 35 76 22 88 24 C96 25 100 34 112 34 C122 34 128 12 140 8 C150 5 154 20 160 28 C166 34 176 30 186 26 C196 22 200 14 210 16 C220 18 224 34 240 36 C252 37 262 38 274 40"/>
+          <circle cx="112" cy="22" r="6"/>
+          <path d="M20 48 q10 -4 20 0 t20 0 t20 0 t20 0" opacity=".7"/><path d="M150 50 q10 -4 20 0 t20 0 t20 0 t20 0 t20 0" opacity=".7"/><path d="M90 56 q10 -3 20 0 t20 0 t20 0" opacity=".5"/>
+        </svg>
+        <div class="btn-row reveal">
+          <a class="btn btn-main" id="maps" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/place/Som+do+Mar+Eventos+-+Casamento+na+Praia+no+RJ/@-23.0150192,-43.4098623,17z/data=!3m1!4b1!4m6!3m5!1s0x9bdda8f463a9c7:0x28a13bf51bf27a0!8m2!3d-23.0150242!4d-43.4072874!16s%2Fg%2F11k6wtc045">Cómo llegar</a>
+        </div>
+        <a class="link reveal" id="cal" href="#" target="_blank" rel="noopener">Agregar a mi calendario</a>
+      </section>
+
+      <!-- HOJA 3: vestimenta -->
+      <section class="sheet" aria-labelledby="t-dress">
+        <span class="star" style="top:44px;left:42px;width:7px;height:7px"><svg><use href="#i-star"/></svg></span>
+        <span class="star" style="bottom:60px;right:46px"><svg><use href="#i-star"/></svg></span>
+        <div class="icon reveal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5l-1 4 4.5 13H6l4.5-13z"/><path d="M10.5 7h3"/><path d="M8.6 3.4 9.5 3M15.4 3.4 14.5 3"/></svg></div>
+        <h2 class="kicker reveal" id="t-dress">Vestimenta</h2>
+        <p class="sub reveal">dress code</p>
+        <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
+        <p class="dress-title reveal">Cocktail elegante</p>
+        <p class="swatch-note reveal">inspirate en los colores del atardecer</p>
+        <p class="look-intro reveal">Lo importante es que te sientas vos. Aquí, algunas ideas para inspirarte.</p>
+        <img class="lookbook reveal" src="vestimenta.jpg" width="880" height="1099" loading="lazy" decoding="async"
+             alt="Ilustración de invitados en la playa con vestidos largos y trajes en tonos pastel">
+        <p class="dress-rules reveal"><span>Sin vestidos ni trajes blancos</span><span>Sin shorts ni vestidos cortos</span></p>
+      </section>
+
+      <!-- HOJA 4: confirmación -->
+      <section class="sheet" aria-labelledby="t-rsvp">
+        <span class="star" style="top:38px;right:44px;width:7px;height:7px"><svg><use href="#i-star"/></svg></span>
+        <span class="star" style="top:150px;left:36px;width:6px;height:6px"><svg><use href="#i-star"/></svg></span>
+        <div class="icon reveal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="1.5"/><path d="m3.5 7 8.5 6.5L20.5 7"/></svg></div>
+        <h2 class="kicker reveal" id="t-rsvp">Confirmación</h2>
+        <p class="sub reveal">¿nos acompañás?</p>
+        <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
+        <p class="rsvp-note reveal">Avisanos con un toque y se abrirá WhatsApp con el mensaje listo.</p>
+        <div class="choice reveal">
+          <a class="yes" id="yes" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Confirmo<br>asistencia</a>
+          <a id="no" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>No podré<br>asistir</a>
+        </div>
+        <p class="with-love reveal">Con amor,</p>
+        <p class="sign reveal">Sol &amp; Nico</p>
+        <p class="sign-date reveal">27 · 03 · 2027</p>
+        <svg class="mark reveal" viewBox="0 0 200 70" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 40 H72"/><path d="M128 40 H192"/>
+          <path d="M100 60 C86 50 74 41 74 30 C74 22 80 17 87 17 C93 17 97 21 100 26 C103 21 107 17 113 17 C120 17 126 22 126 30 C126 41 114 50 100 60 Z"/>
+          <path d="M100 8 l1.2 3.2 3.2 1.2 -3.2 1.2 -1.2 3.2 -1.2 -3.2 -3.2 -1.2 3.2 -1.2z" fill="currentColor" stroke="none"/>
+        </svg>
+        <button class="replay reveal" id="replay" type="button"><span aria-hidden="true">↺</span> Volver a ver el video</button>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ===== Datos para completar ===== */
+const HORA = '16:00';            // ej. '17:30' (hora de Rio). Vacío = "Hora por confirmar"
+const WHATSAPP = '';        // número con código de país, sin + ni espacios, ej. '5491122334455'
+/* =============================== */
+
+const $ = id => document.getElementById(id);
+const opening = $('opening'), video = $('video'), tap = $('tap');
+const music = $('music'), musicBtn = $('musicBtn');
+let finished = false, started = false, musicWanted = true;
+
+/* Música: suena en bucle desde que se abre la invitación hasta que se cierra.
+   Los celulares no dejan sonar audio sin un toque, así que primero se intenta
+   sola; si el navegador la bloquea, el sobre muestra "Tocá para abrir". */
+function setMusicUI(){ musicBtn.classList.toggle('on', !music.paused); musicBtn.setAttribute('aria-pressed', String(!music.paused)); }
+music.addEventListener('play', setMusicUI);
+music.addEventListener('pause', setMusicUI);
+music.volume = 0.8;
+function startMusic(){
+  if (!musicWanted) return Promise.resolve();
+  return music.play().then(() => { musicBtn.hidden = false; });
+}
+musicBtn.addEventListener('click', () => {
+  if (music.paused) { musicWanted = true; music.play().catch(() => {}); }
+  else { musicWanted = false; music.pause(); }
+});
+// Si se sale de la página (otra app, bloqueo de pantalla) se pausa; al volver, sigue.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) music.pause();
+  else if (musicWanted && started) music.play().catch(() => {});
+});
+// Respaldo: cualquier toque en la página reanuda la música si quedó en pausa.
+document.addEventListener('pointerdown', () => { if (started && musicWanted && music.paused) music.play().catch(() => {}); }, { passive: true });
+
+function finish(){
+  if (finished) return;
+  finished = true;
+  video.pause();
+  document.body.classList.remove('locked');
+  document.body.classList.add('ready');
+  window.scrollTo(0, 0);
+  opening.classList.add('fade');
+  setTimeout(() => { opening.hidden = true; }, 1700);
+  const cp = $('couple').play(); if (cp && cp.catch) cp.catch(() => {});
+}
+function play(){
+  const p = video.play();
+  if (p && p.catch) p.catch(() => finish());
+}
+function begin(){
+  if (started) return;
+  started = true;
+  tap.hidden = true;
+  play();
+  // Si el video no carga en 12 s, mostrar la invitación igual
+  setTimeout(() => { if (!finished && video.currentTime === 0) finish(); }, 12000);
+}
+video.addEventListener('ended', finish);
+video.addEventListener('error', finish);
+$('skip').addEventListener('click', () => { if (!started) { startMusic().catch(() => {}); started = true; } finish(); });
+tap.addEventListener('click', () => { if (!ready) return; startMusic().catch(() => {}); begin(); });
+
+/* Carga de video y música compatible con todos los celulares.
+   iPhone y Android piden los archivos de a partes mientras reproducen; si el
+   servidor no responde bien a eso, no arrancan. Por eso se descargan completos
+   primero y se reproducen desde la memoria del teléfono. Si la descarga falla,
+   se usa el archivo directo. */
+function loadInto(el){
+  const path = el.dataset.src;
+  const direct = () => { if (!el.src) { el.src = path; el.load(); } };
+  if (!window.fetch || !window.URL || !URL.createObjectURL) { direct(); return Promise.resolve(); }
+  return fetch(path).then(r => { if (!r.ok) throw 0; return r.blob(); })
+    .then(b => { el.src = URL.createObjectURL(b); el.load(); })
+    .catch(direct);
+}
+let ready = false;
+function onReady(){
+  if (ready) return;
+  ready = true;
+  tap.classList.remove('loading'); tap.removeAttribute('aria-busy');
+  tap.querySelector('span').textContent = 'Tocá para abrir';
+  // Intento de arranque automático con sonido; si el navegador lo bloquea, queda el sobre
+  startMusic().then(begin).catch(() => {});
+}
+Promise.all([loadInto(video), loadInto(music)]).then(onReady);
+// Si la descarga tarda mucho (conexión lenta), seguir con los archivos directos
+setTimeout(() => { [video, music].forEach(el => { if (!el.src) { el.src = el.dataset.src; el.load(); } }); onReady(); }, 15000);
+loadInto($('couple'));
+
+$('replay').addEventListener('click', () => {
+  finished = false;
+  const c = $('couple'); c.pause(); c.currentTime = 0;
+  document.body.classList.remove('ready');
+  document.body.classList.add('locked');
+  opening.hidden = false;
+  requestAnimationFrame(() => opening.classList.remove('fade'));
+  video.currentTime = 0;
+  play();
+});
+
+/* Hora y cuenta regresiva (Rio = UTC−3, sin horario de verano) */
+let hh = 0, mm = 0;
+if (HORA) { [hh, mm] = HORA.split(':').map(Number); $('hora').textContent = HORA + ' h'; }
+const TARGET = new Date(Date.UTC(2027, 2, 27, hh + 3, mm));
+
+function tick(){
+  const now = new Date();
+  if (now >= TARGET) {
+    $('count').innerHTML = '<div class="count-done">¡Llegó el gran día!</div>';
+    clearInterval(timer);
+    return;
+  }
+  let ms = TARGET - now;
+  const d = Math.floor(ms / 864e5); ms %= 864e5;
+  const h = Math.floor(ms / 36e5); ms %= 36e5;
+  const m = Math.floor(ms / 6e4); ms %= 6e4;
+  const s = Math.floor(ms / 1e3);
+  $('cDias').textContent = d;
+  $('cHoras').textContent = String(h).padStart(2, '0');
+  $('cMin').textContent = String(m).padStart(2, '0');
+  $('cSeg').textContent = String(s).padStart(2, '0');
+}
+const timer = setInterval(tick, 1000);
+tick();
+
+/* WhatsApp */
+function wa(text){ return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(text); }
+$('yes').href = wa('¡Hola Sol y Nico! Confirmo mi asistencia a su boda el sábado 27 de marzo de 2027 en Rio. ¡Ahí estaré! 🤍');
+$('no').href  = wa('¡Hola Sol y Nico! Lamentablemente no podré asistir a su boda el 27 de marzo de 2027. ¡Les deseo lo mejor! 🤍');
+
+/* Calendario: iPhone/iPad abre el archivo .ics en Calendario; el resto, Google Calendar */
+(function(){
+  const title = 'Boda de Sol & Nico';
+  const where = 'Som do Mar Eventos, Praia da Reserva, Barra da Tijuca, Rio de Janeiro (-23.0150242, -43.4072874)';
+  const details = 'Dress code: cocktail elegante, en tonos pasteles, sin blanco y sin shorts.';
+  const pad = n => String(n).padStart(2, '0');
+  const utc = d => d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z';
+  const dates = HORA ? utc(TARGET) + '/' + utc(new Date(TARGET.getTime() + 6 * 36e5)) : '20270327/20270328';
+  const g = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) +
+            '&dates=' + dates + '&location=' + encodeURIComponent(where) + '&details=' + encodeURIComponent(details);
+  const cal = $('cal');
+  cal.href = g;
+  const iOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (iOS) {
+    const [s, e] = dates.split('/');
+    const when = HORA ? 'DTSTART:' + s + '\r\nDTEND:' + e : 'DTSTART;VALUE=DATE:' + s + '\r\nDTEND;VALUE=DATE:' + e;
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//SolNico//ES','BEGIN:VEVENT','UID:boda-sol-nico-20270327',
+      'DTSTAMP:' + utc(new Date()), when, 'SUMMARY:' + title, 'LOCATION:' + where.replace(/,/g, '\\,'),
+      'DESCRIPTION:' + details.replace(/,/g, '\\,'), 'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    cal.removeAttribute('target');
+    cal.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    cal.setAttribute('download', 'boda-sol-nico.ics');
+  }
+})();
+
+/* Fundidos al hacer scroll */
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .2 }) : null;
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+</body>
+</html>
