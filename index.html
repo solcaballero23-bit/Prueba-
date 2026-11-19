@@ -181,12 +181,12 @@
 
   /* Hoja 3: vestimenta */
   .dress-title{font-family:var(--script);font-size:44px;line-height:1.1;margin-top:28px}
-  .swatches{display:flex;justify-content:center;gap:10px;margin-top:22px}
-  .swatches i{width:30px;height:30px;border-radius:50% 46% 52% 48% / 48% 52% 46% 50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7), 0 0 0 4px rgba(255,255,255,.4)}
-  .swatch-note{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--plum-soft);margin-top:14px}
-  .rules{list-style:none;display:flex;flex-direction:column;gap:0;width:100%;max-width:260px;margin:30px auto 0}
-  .rules li{font-family:var(--serif);font-size:16px;letter-spacing:.04em;padding:13px 0;border-top:1px solid rgba(185,138,62,.35)}
-  .rules li:last-child{border-bottom:1px solid rgba(185,138,62,.35)}
+  .swatch-note{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--plum-soft);margin-top:12px}
+  .look-intro{font-family:var(--serif);font-style:italic;font-size:13.5px;line-height:1.5;color:var(--plum-soft);margin-top:22px;max-width:30ch;text-wrap:balance}
+  .lookbook{display:block;width:100%;height:auto;margin-top:16px;border-radius:6px;background:#f6e6da;
+    box-shadow:0 0 0 1px rgba(185,138,62,.55), 0 0 0 5px rgba(255,255,255,.55), 0 18px 32px -18px rgba(110,42,74,.55)}
+  .dress-rules{font-size:11px;font-weight:400;line-height:1.6;letter-spacing:.06em;color:var(--plum-soft);margin-top:18px;text-wrap:balance}
+  .dress-rules span{display:block;white-space:nowrap}
 
   /* Hoja 4: confirmación */
   .rsvp-note{font-size:15px;line-height:1.65;color:var(--plum-soft);margin-top:24px;max-width:28ch}
@@ -321,14 +321,11 @@
         <p class="sub reveal">dress code</p>
         <svg class="orn reveal" aria-hidden="true"><use href="#i-orn"/></svg>
         <p class="dress-title reveal">Cocktail elegante</p>
-        <div class="swatches reveal" aria-hidden="true">
-          <i style="background:#f3c6d0"></i><i style="background:#f6d2b3"></i><i style="background:#cdbfe6"></i><i style="background:#c7e3dc"></i><i style="background:#f4e3a8"></i>
-        </div>
         <p class="swatch-note reveal">inspírate en los colores del atardecer</p>
-        <ul class="rules reveal">
-          <li>Sin blanco</li>
-          <li>Sin shorts</li>
-        </ul>
+        <p class="look-intro reveal">Lo importante es que te sientas tú. Aquí, algunas ideas para inspirarte.</p>
+        <img class="lookbook reveal" src="vestimenta.jpg" width="880" height="1099" loading="lazy" decoding="async"
+             alt="Ilustración de invitados en la playa con vestidos largos y trajes en tonos pastel">
+        <p class="dress-rules reveal"><span>Sin vestidos ni trajes blancos</span><span>Sin shorts ni vestidos cortos</span></p>
       </section>
 
       <!-- HOJA 4: confirmación -->
