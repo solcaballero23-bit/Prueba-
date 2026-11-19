@@ -97,7 +97,7 @@
   @keyframes bob{50%{transform:translateY(6px)}}
 
   .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(transparent,var(--sand));pointer-events:none}
-  /* la pareja sigue bailando: recorte en bucle alineado con la imagen de fondo, con bordes difuminados */
+  /* la pareja baila ~2 s más y se queda quieta: recorte alineado con la imagen de fondo, con bordes difuminados */
   .couple{position:absolute;left:calc((100% - 720 * var(--u)) / 2 + 130 * var(--u));top:calc(880 * var(--u));width:calc(270 * var(--u));height:calc(270 * var(--u));
     object-fit:fill;pointer-events:none;
     -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 47%,#000 58%,transparent 97%);mask-image:radial-gradient(ellipse 50% 50% at 50% 47%,#000 58%,transparent 97%)}
@@ -199,7 +199,7 @@
         <path stroke-width="1.3" d="M0 45 q40 -6 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0"/>
         <path stroke-width="2.6" d="M0 84 q60 -9 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/></g></svg>
     </div>
-    <video class="couple" id="couple" src="pareja.mp4" poster="pareja.jpg" muted loop playsinline webkit-playsinline preload="auto" aria-hidden="true"></video>
+    <video class="couple" id="couple" src="pareja.mp4" poster="pareja.jpg" muted playsinline webkit-playsinline preload="auto" aria-hidden="true"></video>
     <div class="hero-text">
       <p class="l1"><em>“De algún modo, mi alma conocía a tu alma antes de que tuviéramos la oportunidad de encontrarnos”</em></p>
       <p class="l2"><span class="dash">-</span>fue como volver a casa después de un día muy, muy largo</p>
