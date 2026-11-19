@@ -135,7 +135,7 @@
   .bigdate{margin-top:2px}
   .time{margin-top:12px;font-size:15px;line-height:1.5;color:var(--plum-soft)}
 
-  .count{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:18px}
+  .count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px}
   .unit{padding:2px 0}
   .unit + .unit{box-shadow:inset 1px 0 0 rgba(110,42,74,.14)}
   .unit b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(24px,7.4vw,30px);line-height:1;font-variant-numeric:lining-nums tabular-nums;color:var(--plum)}
@@ -228,7 +228,6 @@
         <div class="rule"></div>
         <p class="eyebrow">Faltan</p>
         <div class="count" id="count" role="timer" aria-live="off">
-          <div class="unit"><b id="cMeses">–</b><span>meses</span></div>
           <div class="unit"><b id="cDias">–</b><span>días</span></div>
           <div class="unit"><b id="cHoras">–</b><span>horas</span></div>
           <div class="unit"><b id="cMin">–</b><span>min</span></div>
@@ -365,7 +364,6 @@ let hh = 0, mm = 0;
 if (HORA) { [hh, mm] = HORA.split(':').map(Number); $('hora').textContent = HORA + ' h'; }
 const TARGET = new Date(Date.UTC(2027, 2, 27, hh + 3, mm));
 
-function addMonths(d, m){ const x = new Date(d); x.setUTCMonth(x.getUTCMonth() + m); return x; }
 function tick(){
   const now = new Date();
   if (now >= TARGET) {
@@ -373,14 +371,11 @@ function tick(){
     clearInterval(timer);
     return;
   }
-  let meses = (TARGET.getUTCFullYear() - now.getUTCFullYear()) * 12 + TARGET.getUTCMonth() - now.getUTCMonth();
-  if (addMonths(now, meses) > TARGET) meses--;
-  let ms = TARGET - addMonths(now, meses);
+  let ms = TARGET - now;
   const d = Math.floor(ms / 864e5); ms %= 864e5;
   const h = Math.floor(ms / 36e5); ms %= 36e5;
   const m = Math.floor(ms / 6e4); ms %= 6e4;
   const s = Math.floor(ms / 1e3);
-  $('cMeses').textContent = meses;
   $('cDias').textContent = d;
   $('cHoras').textContent = String(h).padStart(2, '0');
   $('cMin').textContent = String(m).padStart(2, '0');
