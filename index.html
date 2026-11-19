@@ -50,7 +50,10 @@
 
   /* ---------- PARTE 1: video de apertura ---------- */
   .opening{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;background:#c98f74;transition:opacity 1.6s ease}
-  .opening.fade{opacity:0;pointer-events:none}
+  .opening.fade{opacity:0;pointer-events:none;background:transparent}
+  /* al fundirse, la zona de la pareja deja ver enseguida la pareja que sigue girando debajo */
+  .opening.fade .screen{--hole:radial-gradient(ellipse calc(125 * var(--u)) calc(135 * var(--u)) at calc((100% - 720 * var(--u)) / 2 + 265 * var(--u)) calc(1010 * var(--u)),transparent 55%,#000 100%);
+    -webkit-mask-image:var(--hole);mask-image:var(--hole)}
   .opening[hidden]{display:none}
   .opening .screen{position:relative;width:var(--colw);height:100%;overflow:hidden;background:url(poster.jpg) center/cover var(--rose)}
   .opening video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -97,7 +100,7 @@
   @keyframes bob{50%{transform:translateY(6px)}}
 
   .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(transparent,var(--sand));pointer-events:none}
-  /* la pareja baila ~2 s más y se queda quieta: recorte alineado con la imagen de fondo, con bordes difuminados */
+  /* la pareja sigue girando ~3 s más y se queda quieta: recorte alineado con la imagen de fondo, con bordes difuminados */
   .couple{position:absolute;left:calc((100% - 720 * var(--u)) / 2 + 130 * var(--u));top:calc(880 * var(--u));width:calc(270 * var(--u));height:calc(270 * var(--u));
     object-fit:fill;pointer-events:none;
     -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 47%,#000 58%,transparent 97%);mask-image:radial-gradient(ellipse 50% 50% at 50% 47%,#000 58%,transparent 97%)}
@@ -324,7 +327,7 @@ function finish(){
   window.scrollTo(0, 0);
   opening.classList.add('fade');
   setTimeout(() => { opening.hidden = true; }, 1700);
-  const c = $('couple'); c.currentTime = 0; const cp = c.play(); if (cp && cp.catch) cp.catch(() => {});
+  const cp = $('couple').play(); if (cp && cp.catch) cp.catch(() => {});
 }
 function play(){
   const p = video.play();
@@ -348,6 +351,7 @@ startMusic().then(begin).catch(() => { tap.hidden = false; });
 
 $('replay').addEventListener('click', () => {
   finished = false;
+  const c = $('couple'); c.pause(); c.currentTime = 0;
   document.body.classList.remove('ready');
   document.body.classList.add('locked');
   opening.hidden = false;
